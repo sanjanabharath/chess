@@ -47,7 +47,7 @@ export class GameManager {
           (game) => game.player1 == socket || game.player2,
         );
         if (game) {
-          game.makeMove(socket, message.move); // This particular player is making a move
+          game.makeMove(socket, message.payload.move); // This particular player is making a move
         }
       }
     });
