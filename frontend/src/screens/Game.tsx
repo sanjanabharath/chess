@@ -3,17 +3,20 @@ import Chessboard from "../components/Chessboard";
 import Button from "../components/Button";
 import { useSocket } from "../hooks/useSocket";
 import { Chess } from "chess.js";
+import { toast, ToastContainer } from "react-toastify";
 
 // Move everything together, there is a code repetition
 export const INIT_GAME = "init_game";
 export const MOVE = "move";
 export const GAME_OVER = "game_over";
+export const INVALID_MOVE = "invalid_move";
 
 const Game = () => {
   const socket = useSocket();
   const [chess, setChess] = useState(new Chess());
   const [board, setBoard] = useState(chess.board());
   const [started, setStarted] = useState(false);
+  const notify = () => toast("Invalid Move");
   useEffect(() => {
     if (!socket) return;
     socket.onmessage = (event) => {
@@ -33,6 +36,12 @@ const Game = () => {
           break;
         case GAME_OVER:
           console.log("Game over");
+          break;
+        case INVALID_MOVE:
+          <div>
+            <button onClick={notify}>Invalid Move</button>
+            <ToastContainer />
+          </div>;
           break;
       }
     };

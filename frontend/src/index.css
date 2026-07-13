@@ -1,1 +1,25 @@
 @import "tailwindcss";
+
+.background {
+  background-image: url("/pattern.svg");
+  background-size: 180px 180px;
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
+
+.left_hand {
+  position: absolute;
+  left: 0px;
+  top: 150px;
+  width: 350px;
+  z-index: -1;
+}
+
+.right_hand {
+  position: absolute;
+  right: 0px;
+  top: 150px;
+  width: 350px;
+  z-index: -1;
+}

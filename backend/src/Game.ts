@@ -1,6 +1,6 @@
 import type WebSocket from "ws";
 import { Chess } from "chess.js";
-import { GAME_OVER, INIT_GAME, MOVE } from "./messages.js";
+import { GAME_OVER, INIT_GAME, INVALID_MOVE, MOVE } from "./messages.js";
 
 export class Game {
   public player1: WebSocket;
@@ -41,16 +41,55 @@ export class Game {
   ) {
     // validate the type of move using zod
     if (this.moveCount % 2 === 0 && socket != this.player1) {
+      this.player2.send(
+        JSON.stringify({
+          type: INVALID_MOVE,
+          payload: {
+            code: INVALID_MOVE,
+            message: "Not your turn",
+          },
+        }),
+      );
       return;
     }
 
     if (this.moveCount % 2 === 1 && socket != this.player2) {
+      this.player1.send(
+        JSON.stringify({
+          type: INVALID_MOVE,
+          payload: {
+            code: INVALID_MOVE,
+            message: "Not your turn",
+          },
+        }),
+      );
       return;
     }
 
     try {
       this.board.move(move);
     } catch (e) {
+      if (this.moveCount % 2 === 0) {
+        this.player2.send(
+          JSON.stringify({
+            type: INVALID_MOVE,
+            payload: {
+              code: INVALID_MOVE,
+              message: e,
+            },
+          }),
+        );
+      } else {
+        this.player1.send(
+          JSON.stringify({
+            type: INVALID_MOVE,
+            payload: {
+              code: INVALID_MOVE,
+              message: e,
+            },
+          }),
+        );
+      }
       console.log(e);
       return;
     }

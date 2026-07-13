@@ -18,7 +18,7 @@ const Chessboard = ({
   socket: WebSocket;
 }) => {
   const [from, setFrom] = useState<null | Square>(null);
-  const [to, setTo] = useState<null | Square>(null);
+
   return (
     <div className="text-white-200">
       <div>
@@ -59,7 +59,7 @@ const Chessboard = ({
                       {/* {square ? square.type : ""} */}
                       {square ? (
                         <img
-                          className="w-8 h-8"
+                          className="w-8 h-8 cursor-pointer"
                           src={`/${square?.color === "b" ? square?.type : `${square?.type?.toUpperCase()} copy`}.png`}
                         />
                       ) : null}
