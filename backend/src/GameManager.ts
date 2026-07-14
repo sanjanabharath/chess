@@ -1,13 +1,14 @@
 import { WebSocket } from "ws";
-import { INIT_GAME, MOVE } from "./messages.js";
+import { INIT_GAME, MOVE, WAITING_FOR_OPPONENT } from "./messages.js";
 import { Game } from "./Game.js";
+import { User } from "./User.js";
 
 // Classes need to be created -> User, Game
 
 export class GameManager {
   private games: Game[];
-  private pendingUser: WebSocket | null; // This should be a User class in the future.
-  private users: WebSocket[];
+  private pendingUser: User | null; // This should be a User class in the future.
+  private users: User[];
 
   constructor() {
     this.games = [];
@@ -16,12 +17,13 @@ export class GameManager {
   }
 
   addUser(socket: WebSocket) {
-    this.users.push(socket);
+    const user = new User(socket);
+    this.users.push(user);
     this.addHandler(socket);
   }
 
   removeUser(socket: WebSocket) {
-    this.users = this.users.filter((user) => user != socket);
+    this.users = this.users.filter((user) => user.getSocket() != socket);
     // Stop the game here because the user left
     // This is bad, there should be a reconnecting logic that need to be added
   }
@@ -34,11 +36,16 @@ export class GameManager {
       if (message.type == INIT_GAME) {
         if (this.pendingUser) {
           //Start the game
-          const game = new Game(this.pendingUser, socket);
+          const game = new Game(this.pendingUser.getSocket(), socket);
           this.games.push(game);
           this.pendingUser = null;
         } else {
-          this.pendingUser = socket;
+          this.pendingUser = new User(socket);
+          socket.send(
+            JSON.stringify({
+              type: WAITING_FOR_OPPONENT,
+            }),
+          );
         }
       }
 
