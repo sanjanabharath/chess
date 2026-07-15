@@ -7,7 +7,7 @@ import { User } from "./User.js";
 
 export class GameManager {
   private games: Game[];
-  private pendingUser: User | null; // This should be a User class in the future.
+  private pendingUser: User | null;
   private users: User[];
 
   constructor() {
