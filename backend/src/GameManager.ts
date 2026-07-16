@@ -16,7 +16,7 @@ export class GameManager {
     this.users = [];
   }
 
-  addUser(socket: WebSocket) {
+  addUser(socket: WebSocket, userId: string) {
     const user = new User(socket);
     this.users.push(user);
     this.addHandler(socket);

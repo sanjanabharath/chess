@@ -2,6 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
   const navigate = useNavigate();
   return (
     <div className="min-h-screen grid place-items-center ">
@@ -10,11 +12,13 @@ const Signin = () => {
         <p>Sign in to your account.</p>
 
         <input
+          onChange={(e) => setEmail(e.target.value)}
           type="email"
           placeholder="Email"
           className="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:gray-300 w-full"
         />
         <input
+          onChange={(e) => setPassword(e.target.value)}
           type="password"
           placeholder="Password"
           className="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:gray-300 w-full"

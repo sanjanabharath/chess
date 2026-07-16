@@ -6,6 +6,7 @@ import { Chess } from "chess.js";
 import { toast, ToastContainer } from "react-toastify";
 import { PacmanLoader, RingLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 // Move everything together, there is a code repetition
 export const INIT_GAME = "init_game";
@@ -17,6 +18,7 @@ export const WAITING_FOR_OPPONENT = "waiting_for_opponent";
 const Game = () => {
   const navigate = useNavigate();
   const socket = useSocket();
+  const { token } = useAuth();
   const [chess, setChess] = useState(new Chess());
   const [board, setBoard] = useState(chess.board());
   const [started, setStarted] = useState(false);
@@ -65,6 +67,9 @@ const Game = () => {
       }
     };
   }, [socket]);
+  if (!token) {
+    navigate("/signin");
+  }
   if (!socket)
     return (
       <div className="flex justify-center items-center h-screen">

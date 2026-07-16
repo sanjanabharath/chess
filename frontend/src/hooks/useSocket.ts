@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 
-const WS_URL = "ws://localhost:8080";
+const token = localStorage.getItem("token");
+
+const WS_URL = `ws://localhost:8080?token=${token}`;
 
 export const useSocket = () => {
   const [socket, setSocket] = useState<WebSocket | null>(null);

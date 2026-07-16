@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 
 const Landing = () => {
   const navigate = useNavigate();
+
   return (
     <div>
       {" "}
