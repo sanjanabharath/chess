@@ -1,11 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useHandleAuth } from "../hooks/useHandleAuth";
 
 const Signup = () => {
   const navigate = useNavigate();
   const [email, setEmail] = React.useState("");
   const [name, setName] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const { handleAuth } = useHandleAuth();
   return (
     <div className="min-h-screen grid place-items-center ">
       <div className="w-80 bg-white p-6 rounded-lg shadow-lg grid place-items-center gap-2">
@@ -30,11 +32,10 @@ const Signup = () => {
           className="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:gray-300 w-full"
         />
 
-        <button className="w-full bg-green-500 text-white p-2 rounded-md mt-4 hover:bg-green-600 cursor-pointer">
-          Register
-        </button>
-
-        <button className="w-full bg-green-500 text-white p-2 rounded-md mt-4 hover:bg-green-600 cursor-pointer">
+        <button
+          className="w-full bg-green-500 text-white p-2 rounded-md mt-4 hover:bg-green-600 cursor-pointer"
+          onClick={() => handleAuth("register", email, password)}
+        >
           Register
         </button>
 
