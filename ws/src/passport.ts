@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import passport from "passport";
-import { db } from "../lib/prisma.js";
+import { db } from "./lib/prisma.js";
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 dotenv.config();
 const GOOGLE_CLIENT_ID =

@@ -9,7 +9,7 @@ interface AuthenticatedRequest extends IncomingMessage {
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
-const wss = new WebSocketServer({ port: 8080 });
+const wss = new WebSocketServer({ port: 3000 });
 
 const gameManager = new GameManager();
 

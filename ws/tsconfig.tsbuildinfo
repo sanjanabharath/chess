@@ -1,0 +1,1 @@
+{"root":["./prisma.config.d.ts","./src/game.ts","./src/gamemanager.ts","./src/user.ts","./src/index.ts","./src/messages.ts","./src/passport.ts","./src/prisma.config.ts","./src/db/index.ts","./src/lib/prisma.ts","./src/middleware/authmiddleware.ts","./src/routes/auth.ts","./src/utils/auth.ts","./src/utils/constants.ts"],"version":"6.0.3"}

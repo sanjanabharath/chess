@@ -2,12 +2,18 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useHandleAuth } from "../hooks/useHandleAuth";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+
 const Signin = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
   const navigate = useNavigate();
   const { handleAuth } = useHandleAuth();
+
+  const google = () => {
+    window.open(`${BACKEND_URL}/auth/google`, "_self");
+  };
 
   return (
     <div className="min-h-screen grid place-items-center ">
@@ -34,6 +40,14 @@ const Signin = () => {
         >
           Sign In
         </button>
+
+        <div
+          className="flex w-full items-center justify-center p-2 rounded-md my-2 cursor-pointer transition-colors hover:bg-green-300 duration-300"
+          onClick={google}
+        >
+          <img src="/google.png" alt="" className="w-6 h-6 mr-2" />
+          Sign in with Google
+        </div>
 
         <p className="text-sm text-gray-600">
           Don't have an account?{" "}
