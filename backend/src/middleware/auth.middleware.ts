@@ -2,6 +2,8 @@ import type { Request, Response, NextFunction } from "express";
 
 import jwt from "jsonwebtoken";
 
+const JWT_SECRET = process.env.JWT_SECRET || "TOP_SECRET_KEY";
+
 export function authenticate(req: Request, res: Response, next: NextFunction) {
   const header = req.headers.authorization;
 
@@ -14,9 +16,10 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET!);
+    const decoded = jwt.verify(token, JWT_SECRET);
 
-    (req as any).user = decoded;
+    //@ts-ignore
+    (req as any).userId = decoded.userId as string;
 
     next();
   } catch {

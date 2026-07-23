@@ -1,62 +1,69 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useHandleAuth } from "../hooks/useHandleAuth";
-
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+import { api } from "../api/client";
 
 const Signin = () => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const navigate = useNavigate();
-  const { handleAuth } = useHandleAuth();
+  async function submit() {
+    if (!email || !password) {
+      alert("Please fill in all fields.");
+      return;
+    }
 
-  const google = () => {
-    window.open(`${BACKEND_URL}/auth/google`, "_self");
-  };
+    try {
+      const response = await api.post("/auth/login", {
+        email,
+        password,
+      });
+
+      localStorage.setItem("token", response.data.token);
+
+      navigate("/game");
+    } catch (error: any) {
+      alert(error.response?.data?.message || "Login failed");
+    }
+  }
 
   return (
-    <div className="min-h-screen grid place-items-center ">
+    <div className="min-h-screen grid place-items-center">
       <div className="w-80 bg-white p-6 rounded-lg shadow-lg grid place-items-center gap-2">
         <h2 className="text-xl font-bold">Sign In</h2>
+
         <p>Sign in to your account.</p>
 
         <input
-          onChange={(e) => setEmail(e.target.value)}
           type="email"
           placeholder="Email"
-          className="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:gray-300 w-full"
+          onChange={(e) => setEmail(e.target.value)}
+          className="border border-gray-300 p-2 rounded-md w-full"
         />
+
         <input
-          onChange={(e) => setPassword(e.target.value)}
           type="password"
           placeholder="Password"
-          className="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:gray-300 w-full"
+          onChange={(e) => setPassword(e.target.value)}
+          className="border border-gray-300 p-2 rounded-md w-full"
         />
 
         <button
-          onClick={() => handleAuth("login", email, password)}
-          className="w-full bg-green-500 text-white p-2 rounded-md mt-4 hover:bg-green-600 cursor-pointer"
+          onClick={submit}
+          className="w-full bg-green-500 text-white p-2 rounded-md mt-4 hover:bg-green-600"
         >
           Sign In
         </button>
 
-        <div
-          className="flex w-full items-center justify-center p-2 rounded-md my-2 cursor-pointer transition-colors hover:bg-green-300 duration-300"
-          onClick={google}
-        >
-          <img src="/google.png" alt="" className="w-6 h-6 mr-2" />
-          Sign in with Google
-        </div>
-
         <p className="text-sm text-gray-600">
           Don't have an account?{" "}
-          <a
+          <span
             onClick={() => navigate("/signup")}
-            className="text-green-500 hover:underline"
+            className="text-green-500 hover:underline cursor-pointer"
           >
             Sign up
-          </a>
+          </span>
         </p>
       </div>
     </div>
