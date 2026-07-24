@@ -16,15 +16,10 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
   }
 
   try {
-    const decoded = jwt.verify(token, JWT_SECRET);
-
-    //@ts-ignore
-    (req as any).userId = decoded.userId as string;
-
+    const decoded = jwt.verify(token, JWT_SECRET) as { userId: string };
+    req.userId = decoded.userId;
     next();
   } catch {
-    res.status(401).json({
-      message: "Invalid token",
-    });
+    res.status(401).json({ message: "Invalid token" });
   }
 }

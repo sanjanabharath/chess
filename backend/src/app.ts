@@ -2,13 +2,14 @@ import express from "express";
 import cors from "cors";
 import authRouter from "./routes/auth.routes.js";
 import { db } from "./config/database.js";
+import { authenticate } from "./middleware/auth.middleware.js";
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use("/auth", authRouter);
 
-app.get("/me", authRouter, async (req, res) => {
+app.get("/me", authenticate, async (req, res) => {
   const user = await db.user.findUnique({
     where: {
       id: req.userId,

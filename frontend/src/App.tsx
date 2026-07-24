@@ -4,6 +4,7 @@ import Landing from "./screens/Landing";
 import Game from "./screens/Game";
 import Signup from "./screens/Signup";
 import Signin from "./screens/Signin";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -11,7 +12,14 @@ function App() {
       <BrowserRouter basename="/">
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/game" element={<Game />} />
+          <Route
+            path="/game"
+            element={
+              <ProtectedRoute>
+                <Game />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
         </Routes>

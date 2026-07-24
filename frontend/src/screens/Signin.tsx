@@ -51,7 +51,7 @@ const Signin = () => {
 
         <button
           onClick={submit}
-          className="w-full bg-green-500 text-white p-2 rounded-md mt-4 hover:bg-green-600"
+          className="w-full bg-[#C97B4A] text-white p-2 rounded-md mt-4 hover:[#b13f00] cursor-pointer"
         >
           Sign In
         </button>
@@ -60,7 +60,7 @@ const Signin = () => {
           Don't have an account?{" "}
           <span
             onClick={() => navigate("/signup")}
-            className="text-green-500 hover:underline cursor-pointer"
+            className="text-[#C97B4A] hover:underline cursor-pointer"
           >
             Sign up
           </span>
